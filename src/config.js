@@ -1,16 +1,44 @@
-export default {
+const dev = {
   s3: {
     REGION: "us-east-2",
-    BUCKET: "cuckoo-app-uploads"
+    BUCKET: "cuckoo-cl-app-api-dev-stdoutbucket-rr2n3gotouzy"
   },
   apiGateway: {
     REGION: "us-east-2",
-    URL: "https://7kprqacuei.execute-api.us-east-2.amazonaws.com/prod"
+    URL: "https://6bqjnykq47.execute-api.us-east-2.amazonaws.com/dev"
   },
   cognito: {
     REGION: "us-east-2",
-    USER_POOL_ID: "us-east-2_tz3KicE71",
-    APP_CLIENT_ID: "3031326c8q6css5nde2sr0icus",
-    IDENTITY_POOL_ID: "us-east-2:27b329a5-fd3a-4119-9f50-35c1d19054c4"
+    USER_POOL_ID: "us-east-2_aPXAs9pyz",
+    APP_CLIENT_ID: "6r05fcpba2apehoe4cgbifq90q",
+    IDENTITY_POOL_ID: "us-east-2:983be965-2081-4cf4-b4d7-a45348cf5d07"
   }
+};
+
+const prod = {
+  s3: {
+    REGION: "us-east-2",
+    BUCKET: "cuckoo-cl-app-api-prod-stdoutbucket-535m0jfb4jd"
+  },
+  apiGateway: {
+    REGION: "us-east-2",
+    URL: "https://gkwejzhtfj.execute-api.us-east-2.amazonaws.com/prod"
+  },
+  cognito: {
+    REGION: "us-east-2",
+    USER_POOL_ID: "us-east-2_csyYyvFlI",
+    APP_CLIENT_ID: "6pe74n1oo9gevkllhrq7ec5vb8",
+    IDENTITY_POOL_ID: "us-east-2:f1015767-c8e6-4140-82c2-c22febc2814f"
+  }
+};
+
+// Default to dev if not set
+const config = process.env.REACT_APP_STAGE === 'prod'
+  ? prod
+  : dev;
+
+export default {
+  // Add common config values here
+  MAX_STDOUT_SIZE: 5000000,
+  ...config
 };
