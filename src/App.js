@@ -12,6 +12,7 @@ class App extends Component {
 
     this.state = {
       isAuthenticated: false,
+      emailConfirmed: false,
       isAuthenticating: true,
     };
   }

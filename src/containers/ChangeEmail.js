@@ -4,7 +4,8 @@ import {
   HelpBlock,
   FormGroup,
   FormControl,
-  ControlLabel
+  ControlLabel,
+  Button
 } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import "./ChangeEmail.css";
@@ -28,6 +29,16 @@ export default class ChangeEmail extends Component {
 
   validateConfirmForm() {
     return this.state.code.length > 0;
+  }
+
+  checkEmailAttributes = async event => {
+    const user = await Auth.currentAuthenticatedUser();
+    const attributes = user.attributes
+    if (attributes.email_verified === "false") {
+      this.setState({ codeSent: true });
+    }
+    console.log(attributes)
+    this.setState({ email: attributes.email });
   }
 
   handleChange = event => {
@@ -59,7 +70,6 @@ export default class ChangeEmail extends Component {
 
     try {
       await Auth.verifyCurrentUserAttributeSubmit("email", this.state.code);
-
       this.props.history.push("/settings");
     } catch (e) {
       alert(e.message);
@@ -108,6 +118,11 @@ export default class ChangeEmail extends Component {
             code.
           </HelpBlock>
         </FormGroup>
+        <Button onClick={async () =>
+          {await Auth.verifyCurrentUserAttribute("email");}
+        }>
+          Resend confirmation code
+        </Button>
         <LoaderButton
           block
           type="submit"
