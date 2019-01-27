@@ -56,7 +56,7 @@ export default class Home extends Component {
   renderLander() {
     return (
       <div className="lander">
-        <h1>Cuckoo</h1>
+        <h1>Cuckoo CL</h1>
         <p>Easily track the progress of your command line jobs</p>
         <div>
           <Link to="/login" className="btn btn-info btn-lg">
