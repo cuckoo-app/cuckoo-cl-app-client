@@ -31,11 +31,9 @@ export default class Job extends Component {
       const { stdout } = job;
 
       if (stdout) {
-        console.log(stdout);
         await Storage.vault.get(stdout, {download: true})
         .then(result => {
           stdoutText = decodeURIComponent(escape(result.Body));
-          console.log(stdoutText);
         })
       }
 
@@ -103,8 +101,8 @@ export default class Job extends Component {
             <h3>Runtime: {this.state.job.runtime}</h3>
             <hr />
             <p>Machine: {this.state.job.machine}</p>
-            <p>Date Created: {this.state.job.dateCreated}</p>
-            <p>Date Modified: {this.state.job.dateModified}</p>
+            <p>Date Created: {"Created: " + new Date(this.state.job.dateCreated).toLocaleString()}</p>
+            <p>Date Modified: {"Created: " + new Date(this.state.job.dateModified).toLocaleString()}</p>
             <hr />
             <h4>Standard Out:</h4>
             <SyntaxHighlighter language='zsh' id='test' style={atomDark}

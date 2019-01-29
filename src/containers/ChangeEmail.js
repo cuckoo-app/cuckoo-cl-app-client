@@ -8,7 +8,7 @@ import {
   Button
 } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
-import "./ChangeEmail.css";
+// import "./ChangeEmail.css";
 
 export default class ChangeEmail extends Component {
   constructor(props) {

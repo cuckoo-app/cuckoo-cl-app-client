@@ -5,7 +5,7 @@ const dev = {
   },
   apiGateway: {
     REGION: "us-east-2",
-    URL: "https://6bqjnykq47.execute-api.us-east-2.amazonaws.com/dev"
+    URL: "https://api.cuckoo-cl.com/dev"
   },
   cognito: {
     REGION: "us-east-2",
@@ -22,7 +22,7 @@ const prod = {
   },
   apiGateway: {
     REGION: "us-east-2",
-    URL: "https://gkwejzhtfj.execute-api.us-east-2.amazonaws.com/prod"
+    URL: "https://api.cuckoo-cl.com/prod"
   },
   cognito: {
     REGION: "us-east-2",

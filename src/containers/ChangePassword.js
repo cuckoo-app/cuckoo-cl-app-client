@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Auth } from "aws-amplify";
 import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
-import "./ChangePassword.css";
+// import "./ChangePassword.css";
 
 export default class ChangePassword extends Component {
   constructor(props) {

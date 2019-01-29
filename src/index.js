@@ -9,6 +9,9 @@ import './bootstrap'
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
+const theme = createMuiTheme();
 
 Amplify.configure({
   Auth: {
@@ -36,7 +39,9 @@ Amplify.configure({
 
 ReactDOM.render(
   <Router>
-    <App />
+    <MuiThemeProvider theme={theme}>
+      <App />
+    </MuiThemeProvider>
   </Router>,
   document.getElementById("root")
 );
