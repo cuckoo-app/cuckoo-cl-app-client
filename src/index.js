@@ -11,7 +11,11 @@ import * as serviceWorker from './serviceWorker';
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
-const theme = createMuiTheme();
+const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
+});
 
 Amplify.configure({
   Auth: {

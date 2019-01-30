@@ -101,8 +101,8 @@ export default class Job extends Component {
             <h3>Runtime: {this.state.job.runtime}</h3>
             <hr />
             <p>Machine: {this.state.job.machine}</p>
-            <p>Date Created: {"Created: " + new Date(this.state.job.dateCreated).toLocaleString()}</p>
-            <p>Date Modified: {"Created: " + new Date(this.state.job.dateModified).toLocaleString()}</p>
+            <p>Date Created: {new Date(this.state.job.dateCreated).toLocaleString()}</p>
+            <p>Date Modified: {new Date(this.state.job.dateModified).toLocaleString()}</p>
             <hr />
             <h4>Standard Out:</h4>
             <SyntaxHighlighter language='zsh' id='test' style={atomDark}

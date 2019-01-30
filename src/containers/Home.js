@@ -15,7 +15,7 @@ const styles = theme => ({
   root: {
     flexGrow: 1,
     overflow: 'hidden',
-    padding: `0 ${theme.spacing.unit * 3}px`,
+    padding: `${theme.spacing.unit * 1}px ${theme.spacing.unit * 2}px`,
     backgroundColor: 'crimson'
   },
   paper: {
@@ -59,7 +59,7 @@ class Home extends Component {
   renderJobsList(jobs) {
     return jobs.map(
       (job, i) =>
-        <JobCard job={job} />
+        <JobCard job={job} key={job.jobId}/>
         // <Card>
         //   <ListGroupItem header={job.command.trim().split("\n")[0]}>
         //     {"Created: " + new Date(job.dateCreated).toLocaleString()}
@@ -104,11 +104,12 @@ class Home extends Component {
 
     return (
       <div className="jobs">
-        <div style={{height: 40}}></div>
+        <div style={{height: 20}}></div>
         <Typography
           variant="h2"
           component="h2"
           gutterBottom={true}>My Jobs</Typography>
+        <div style={{height: 10}}></div>
         <Paper className={classes.root}>
           {!this.state.isLoading && this.renderJobsList(this.state.jobs)}
         </Paper>
