@@ -8,7 +8,7 @@ import Home from "./containers/Home";
 import NotFound from "./containers/NotFound";
 import Login from "./containers/Login";
 import Signup from "./containers/Signup";
-import Job from "./containers/Job";
+import JobDetails from "./containers/JobDetails";
 import ResetPassword from "./containers/ResetPassword";
 import ChangePassword from "./containers/ChangePassword";
 import ChangeEmail from "./containers/ChangeEmail";
@@ -61,7 +61,7 @@ export default ({ childProps }) =>
     <AuthenticatedRoute
       path="/jobs/:id"
       exact
-      component={Job}
+      component={JobDetails}
       props={childProps}
     />
     { /* Finally, catch all unmatched routes */ }

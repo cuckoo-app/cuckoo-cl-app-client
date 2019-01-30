@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import Grid from '@material-ui/core/Grid';
+import Chip from '@material-ui/core/Chip';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -64,9 +65,9 @@ const styles = theme => ({
   expandOpen: {
     transform: 'rotate(180deg)',
   },
-  avatar: {
-    backgroundColor: red[500],
-  },
+  detailButton: {
+    marginLeft: theme.spacing.unit
+  }
 });
 
 class JobCard extends Component {
@@ -118,7 +119,7 @@ class JobCard extends Component {
         runtime_background_color = 'deepskyblue'
         break;
       case 'error':
-        runtime_background_color = 'red'
+        runtime_background_color = 'crimson'
         break;
       case 'crash':
         runtime_background_color = 'grey'
@@ -126,6 +127,8 @@ class JobCard extends Component {
       default:
         runtime_background_color = 'white'
     }
+    var jobWeight = this.state.job.unread ? 'bold' : 'normal'
+
 
     return (
       <Card
@@ -139,13 +142,16 @@ class JobCard extends Component {
             alignItems="center"
             style={{flexWrap: 'nowrap'}}
           >
-            <Typography variant="h4" noWrap>
+            <Typography variant="h4" noWrap style={{ fontWeight: jobWeight}}>
               {this.state.job.command}
             </Typography>
             <div className={classes.text}>
-              <Typography variant="h4" style={{backgroundColor: runtime_background_color}}>
-                {this.state.job.runtime}
-              </Typography>
+              <Chip variant="outlined" label={
+                <Typography variant="h4" style={{backgroundColor: runtime_background_color}}>
+                  {this.state.job.runtime}
+                </Typography>
+              } style={{backgroundColor: runtime_background_color}}
+              />
             </div>
           </Grid>
         </CardContent>
@@ -156,17 +162,19 @@ class JobCard extends Component {
             alignItems="center"
             style={{flexWrap: 'nowrap'}}
           >
-            <Typography className={classes.text} variant="body1" noWrap>{this.state.job.machine}</Typography>
-            <Typography className={classes.text} variant="body1">{new Date(this.state.job.dateCreated).toLocaleString()}</Typography>
+            <Typography className={classes.text} variant="h6" noWrap>{this.state.job.machine}</Typography>
+            <Typography className={classes.text} variant="h6">{new Date(this.state.job.dateCreated).toLocaleString()}</Typography>
           </Grid>
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
           <Button
             color="secondary"
+            variant="outlined"
             component={Link}
             to={`/jobs/${this.state.job.jobId}`}
+            className={classes.detailButton}
           >
-            See Details
+            <Typography variant="button"> See Job Details </Typography>
           </Button>
           <IconButton
             size="small"
