@@ -98,7 +98,12 @@ class JobCard extends Component {
         stdout
       });
     } catch (e) {
-      alert(e);
+      console.log(e);
+      console.log('File not set');
+      this.setState({
+        stdoutText: 'Job running! No stdout currently available.',
+        stdout: '',
+      })
     }
 
     // this.stdoutEnd.scrollIntoView({ behavior: "smooth" });
@@ -127,7 +132,7 @@ class JobCard extends Component {
       default:
         runtime_background_color = 'white'
     }
-    var jobWeight = this.state.job.unread ? 'bold' : 'normal'
+    var jobWeight = this.state.job.unread === true ? 'bold' : 'normal'
 
 
     return (

@@ -31,7 +31,16 @@ class Home extends Component {
     this.state = {
       isLoading: true,
       jobs: props.jobs,
+      numUnread: props.numUnread,
     };
+  }
+
+  jobs() {
+    return API.get("jobs", "/jobs");
+  }
+
+  numUnread(jobs) {
+    return jobs.filter(job => job.unread).length;
   }
 
   async componentDidMount() {
@@ -39,17 +48,26 @@ class Home extends Component {
       return;
     }
 
+    var jobs;
     try {
-      const jobs = await API.get("jobs", "/jobs");
-      this.setState({ jobs });
-      this.props.setJobs(jobs);
+      jobs = await this.jobs();
+      console.log(jobs)
     } catch (e) {
       alert(e);
     }
+  
+    var numUnread = this.numUnread(jobs)
 
     this.setState({
       isLoading: false,
+      jobs: jobs,
+      numUnread: numUnread,
     });
+
+    this.props.setJobs(jobs);
+    this.props.setNumUnread(numUnread);
+
+    console.log(numUnread)
   }
 
   shouldComponentUpdate(nextProps) {
@@ -60,27 +78,8 @@ class Home extends Component {
     return jobs.map(
       (job, i) =>
         <JobCard job={job} key={job.jobId}/>
-        // <Card>
-        //   <ListGroupItem header={job.command.trim().split("\n")[0]}>
-        //     {"Created: " + new Date(job.dateCreated).toLocaleString()}
-        //   </ListGroupItem>
-        // </Card>
-    );
-  }
-
-  // renderJobsList(jobs) {
-  //   return jobs.map(
-  //     (job, i) =>
-  //       <LinkContainer
-  //         key={job.jobId}
-  //         to={`/jobs/${job.jobId}`}
-  //       >
-  //         <ListGroupItem header={job.command.trim().split("\n")[0]}>
-  //           {"Created: " + new Date(job.dateCreated).toLocaleString()}
-  //         </ListGroupItem>
-  //       </LinkContainer>
-  //   );
-  // }
+      );
+    }
 
   renderLander() {
     return (

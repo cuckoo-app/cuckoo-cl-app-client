@@ -25,28 +25,17 @@ class App extends Component {
       emailConfirmed: false,
       isAuthenticating: true,
       isLoading: true,
-      jobs: [],
+      jobs: null,
       url: "/",
+      numUnread: null,
     };
-  }
-
-  jobs() {
-    return API.get("jobs", "/jobs");
   }
 
   async componentDidMount() {
     try {
       await Auth.currentSession();
       this.userHasAuthenticated(true);
-      try {
-        const jobs = await this.jobs();
-        this.setState({ jobs });
-        console.log(jobs)
-      } catch (e) {
-        alert(e);
-      }
-    }
-    catch(e) {
+    } catch(e) {
       if (e !== 'No current user') {
         alert(e);
       }
@@ -70,13 +59,19 @@ class App extends Component {
     this.setState({ jobs: jobs });
   }
 
+  setNumUnread = num => {
+    this.setState({ numUnread: num })
+  }
+
   render() {
     const childProps = {
       isAuthenticated: this.state.isAuthenticated,
       userHasAuthenticated: this.userHasAuthenticated,
-      jobs: this.state.jobs,
       redirectHome: this.redirectHome,
+      jobs: this.state.jobs,
       setJobs: this.setJobs,
+      numUnread: this.state.numUnread,
+      setNumUnread: this.setNumUnread,
     };
     const { classes } = this.props;
     return (

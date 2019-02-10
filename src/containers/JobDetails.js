@@ -21,6 +21,14 @@ export default class Job extends Component {
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
   }
 
+  jobs() {
+    return API.get("jobs", "/jobs");
+  }
+
+  numUnread(jobs) {
+    return jobs.filter(job => job.unread).length;
+  }
+
   async componentDidMount() {
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
@@ -29,24 +37,53 @@ export default class Job extends Component {
       let stdoutText;
       const job = await this.getJob();
       const { stdout } = job;
+      this.setState({ job });
 
-      if (stdout) {
-        await Storage.vault.get(stdout, {download: true})
-        .then(result => {
-          stdoutText = decodeURIComponent(escape(result.Body));
+      try {
+        if (stdout) {
+          await Storage.vault.get(stdout, {download: true})
+          .then(result => {
+            stdoutText = decodeURIComponent(escape(result.Body));
+          })
+        }
+        this.setState({
+          stdoutText,
+          stdout
+        });
+        console.log('asdfasdfasdf', this.state)
+      } catch (e) {
+        console.log(e);
+        console.log('File not set');
+        this.setState({
+          stdoutText: 'Job running! No stdout currently available.',
+          stdout: '',
         })
       }
 
-      this.setState({
-        job,
-        stdoutText,
-        stdout
-      });
+      if (this.state.jobs === null) {
+        var jobs;
+        try {
+          jobs = await this.jobs();
+        } catch (e) {
+          alert(e);
+        }
+        this.props.setJobs(jobs);
+      }
+      if (this.state.numUnread === null) {
+        var numUnread = this.numUnread(jobs);
+        this.props.setNumUnread(numUnread);
+      }
+
+      if (this.state.job.unread) {
+        await this.updateRead(job);
+        // not technically changing this job state though
+        this.props.setNumUnread(this.props.numUnread - 1)
+      }
     } catch (e) {
       alert(e);
     }
 
-    var element = document.getElementById("test");
+    var element = document.getElementById("commandline");
     element.scrollTop = element.scrollHeight;
   }
 
@@ -60,6 +97,17 @@ export default class Job extends Component {
 
   getJob() {
     return API.get("jobs", `/jobs/${this.props.match.params.id}`);
+  }
+
+  updateRead(job) {
+    let params = {
+      body: job
+    }
+    params.body.unread = false
+    console.log(params)
+    return API.put("jobs",
+                   `/jobs/${this.props.match.params.id}`,
+                   params);
   }
 
   async deleteJob() {
@@ -105,7 +153,7 @@ export default class Job extends Component {
             <p>Date Modified: {new Date(this.state.job.dateModified).toLocaleString()}</p>
             <hr />
             <h4>Standard Out:</h4>
-            <SyntaxHighlighter language='zsh' id='test' style={atomDark}
+            <SyntaxHighlighter language='zsh' id='commandline' style={atomDark}
               customStyle={{fontSize: 16,
               maxHeight: this.state.height / 2, overflow: 'auto'}}>
               {this.state.stdoutText}

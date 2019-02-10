@@ -112,6 +112,7 @@ class Header extends Component {
       anchorEl: null,
       mobileMoreAnchorEl: null,
     };
+    console.log(props)
   }
 
   handleAccountMenuOpen = event => {
@@ -138,10 +139,6 @@ class Header extends Component {
     await Auth.signOut();
     this.props.userHasAuthenticated(false);
     this.props.history.push("/login");
-  }
-
-  numUnread() {
-    return this.props.jobs.filter(job => job.unread === true).length;
   }
 
   render() {
@@ -247,7 +244,7 @@ class Header extends Component {
                   {this.props.isAuthenticated
                     ? <Fragment>
                         <IconButton color="inherit">
-                          <Badge badgeContent={this.numUnread()} color="secondary">
+                          <Badge badgeContent={this.props.numUnread} color="secondary">
                             <NotificationsIcon />
                           </Badge>
                         </IconButton>
